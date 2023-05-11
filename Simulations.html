@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Uniform Circular Motion, Angular Momentum in Interactive 3D Simulations</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <style>
+ 
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+    
+  }
+    body {
+    
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+#list{
+  position: relative;
+  /* background-color: #1b00b3; */
+}
+.row {
+    display: -ms-flexbox; 
+    display: flex;
+    -ms-flex-wrap: wrap; 
+    flex-wrap: wrap;
+    padding: 0px 8px ;
+    align-items: center;
+    
+  }
+
+   .topics{
+    width:100%;
+    font-size: 2rem;
+    margin: .1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #00b3b3;
+    padding-left: 120px;
+    padding-top: 50px;
+    
+   }
+  
+  /* Create four equal columns that sits next to each other */
+  .column {
+    width:100%;
+    position: relative;
+    float: flex;
+    max-width: 20%;
+    padding: 0px 30px 0px 4px;
+    cursor:pointer;
+  }
+  .column a{
+    float: left;
+    font-size:  0.8rem;
+  }
+  .column img {
+    opacity: 1;
+    margin-top: 16px;
+    vertical-align: middle;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  .column:hover img {
+    opacity: 0.3;
+  }
+  
+  .middle {
+    transition: .5s ease;
+    opacity: 0;
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .column:hover .middle {
+    opacity: 1;
+  }
+  
+  .text {
+    font-weight: bolder;
+    font-size: 14px;
+    padding: 2px 4px;
+    background-color: #0a0e17;
+  }
+  @media screen and (max-width: 600px) {
+    .column{
+      max-width: 50%;
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container" id="home">
+    <div class="topnav" id="myTopnav">
+      <a href="../index.html" > <img src="/effectuall.svg" class="title" alt="Effectual logo"></a>
+      <a href="../Simulations.html">Simulations</a>
+      <a href="#news">News</a>
+      <a href="#contact">Contact</a>
+      <a href="#about">About</a>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
+    </div>
+    <div>
+    <h3>List of Topics</h3>
+  
+    <div class="content" id="list">
+      <div id="row" class="row">
+        <a id="topics" class="topics"></a>
+      </div>
+
+    </div>
+  </div>
+   
+   
+   
+    <div style="text-align: center;" id="counterCard">AAAA</div>
+    <script>
+      let x = document.getElementById("myTopnav");
+      function myFunction() {
+
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+      window.onscroll = function () { myFun() };
+
+      let navbar = document.getElementById("navbar");
+      let sticky = x.offsetTop;
+
+      function myFun() {
+        if (window.pageYOffset >= sticky) {
+          x.classList.add("sticky")
+        } else {
+          x.classList.remove("sticky");
+        }
+      }
+
+    </script>
+    <script type="importmap">
+          {
+            "imports": {
+              "three": "../build/three.module.js",
+              "three/addons/": "./jsm/"
+            }
+          }
+        </script>
+    <script type="module" src="src/files.js"></script>
+</body>
+
+</html>
