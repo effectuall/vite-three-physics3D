@@ -1,5 +1,5 @@
 {
-  "name": "-vite-three-physics3d",
+  "name": "vite-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,6 +12,7 @@
     "vite": "^4.3.2"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^20.0.3",
     "three": "^0.152.2"
   }
 }
