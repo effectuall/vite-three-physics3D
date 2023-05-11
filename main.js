@@ -1,31 +1,43 @@
-import './style.css';
+import './style.css'
+import effectualLogo from '/logo.svg'
+import { setupCounter } from './counter.js'
 
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+document.querySelector('#app').innerHTML = `
+  <div>
+  
+  
+    <h1>Physics Interactive 3D Simulations</h1>
+   
+ 
+   
+    <p>A virtual 3D learning platform at Effectuall. Provides an effective and powerful 3D learning platform for Interactive Physics Simulations.
+      It introduces a teaching methodology that uses technology as access points for guiding students in science.</p>
+    
+			<h2>Explore. Evaluate. Envision.</h2>
+			<a href="https://effectuall.github.io/" target="_blank"><button >Find Out More</button></a>
+			
+      <h3>Effect of Visual Learning -  Effectual Learning </h3>
+ 
+  </div>
+  </div>
+`
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
 
-const textureLoader = new THREE.TextureLoader();
-const myTexture = textureLoader.load('/ACcurrent.jpg')
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, map: myTexture });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+document.querySelector('#counterCard').innerHTML = `
+<div><a href="https://www.youtube.com/channel/UCFSMjn_YssD7Y1ybBwZb3mw" target="_blank">
+<img src="${effectualLogo}" class="logo" alt="Effectual logo" />
+</a></div>
+<p class="read-the-docs">
+Click on the Effectual Learning logo for video tutorials
+</p>
 
-camera.position.z = 5;
+<p> Content still in development. The interactive 3D simulation created using open source Three.js-JavaScript 3D Library.
+© Copyright 2020 by E.P Sajitha (Ph.D). All rights reversed. Any suggestion appreciated. </p>
+<p>Email: effectuallearning@gmail.com</p>
+<div class="card">
+<button id="counter" type="button"></button>
+</div>
+`
+setupCounter(document.querySelector('#counter'))
 
-const controls = new OrbitControls(camera, renderer.domElement);
-
-function animate() {
-  requestAnimationFrame(animate);
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-  controls.update();
-  renderer.render(scene, camera);
-}
-animate();
