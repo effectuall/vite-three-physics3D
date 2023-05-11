@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/icon.ico" />
+  <title>Compound Microscope with Interactive 3D Simulations</title>
+  <style>
+    .label {
+      margin-left: 25px;
+      font-size: 12px;
+      text-align: center;
+      padding: .4em;
+      border-radius: 5px;
+      color: #fff;
+      font-family: sans-serif;
+      background: rgba(0, 0, 0, .8);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="menu">
+
+
+  </div>
+  <div id="detail" class="annotation">
+
+  </div>
+
+  <div id="app"></div>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "../build/three.module.js",
+        "three/addons/": "./jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    import "./styles.css";
+    import json from '/src/microscopeParts.json'
+    import * as THREE from "three";
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+    import * as TWEEN from '@tweenjs/tween.js'
+    import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+    // //global variables
+    let camera, scene, controls;
+    let fov, model;
+    let labelRenderer;
+    let renderer;
+
+    // const buttonLabels = document.getElementById("labels");
+    // const buttonRays = document.getElementById("rays");
+
+    init();
+    animate();
+
+    function init() {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xbfd1e5);
+      createCamera(45, -20, 10, 30, new THREE.Vector3(0, 10, 0));
+      createLights();
+      createRenderer();
+      createControls(5, 10, 0);
+      const scaleHorizontal = new THREE.GridHelper(70, 70);
+      scene.add(scaleHorizontal);
+      const loader = new GLTFLoader();
+      loader
+        .setPath('../model/')
+        .load('telescope.glb', function (gltf) {
+          model = gltf.scene;
+          let telescope = model.getObjectByName('telescope');
+          let pivot = model.getObjectByName('pivot');
+          scene.add(model);
+          telescope.add(addLabels('Telescope'));
+          new TWEEN.Tween(pivot.rotation)
+            .to({ x: -0.57 }, 7500)
+            .easing(TWEEN.Easing.Cubic.Out)
+            .start()
+        });
+
+      window.addEventListener('resize', onWindowResize);
+
+    }
+
+    function createCamera(view, x, y, z, vector) {
+
+      fov = view;
+      const aspect = window.innerWidth / window.innerHeight;
+      const near = 0.1;
+      const far = 1500;
+
+      camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+
+      camera.position.set(x, y, z);
+      camera.lookAt(vector)
+      // camera.position.set(-10, 3, 40);
+    }
+
+    function createLights() {
+      const ambientLight = new THREE.HemisphereLight(0xddeeff, 0x202020, 2);
+      const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+      scene.add(ambientLight);
+
+      mainLight.position.set(10, 10, 10);
+
+      scene.add(ambientLight, mainLight);
+    }
+
+    function createRenderer() {
+      const root = document.getElementById("app");
+      renderer = new THREE.WebGLRenderer({
+        antialias: true
+      });
+      renderer.alpha = true;
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      root.appendChild(renderer.domElement);
+
+      labelRenderer = new CSS2DRenderer();
+      labelRenderer.setSize(window.innerWidth, window.innerHeight);
+      labelRenderer.domElement.style.position = 'absolute';
+      labelRenderer.domElement.style.top = '0px';
+      labelRenderer.domElement.style.pointerEvents = 'none';
+      root.appendChild(labelRenderer.domElement);
+
+    }
+
+    function createControls(x, y, z) {
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.enablePan = true;
+      controls.enableZoom = true;
+      controls.target.set(x, y, z);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      labelRenderer.setSize(window.innerWidth, window.innerHeight);
+
+    }
+
+
+    function addLabels(name) {
+
+      let text = document.createElement('div');
+      text.className = 'label';
+      text.textContent = name;
+
+      let label = new CSS2DObject(text);
+      return label
+    }
+
+    function animate() {
+
+      requestAnimationFrame(animate);
+      controls.update();
+      TWEEN.update();
+      render();
+    }
+
+    function render() {
+      renderer.render(scene, camera);
+      labelRenderer.render(scene, camera);
+    }
+
+  </script>
+</body>
+
+</html>

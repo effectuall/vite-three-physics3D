@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>module 3D</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="menu">
+    <button id="stop">STOP BODY</button>
+    <button id="show">HIDE VECTORS</button>
+  </div>
+  <div id="detail" class="annotation">
+    <p id='part'><strong>Angular Momentum</strong></p>
+    <p class="item" id='describe'>Representation of conservation of momentum for a body moving with constant velocity</strong></p>	<br>
+    <a><label for="radius">CHANGE RADIUS, A = </label><a id="radiusDisplay"> 20 </a> units</a><br>
+    <input type="range" id="radius" name="radius" min="10" max="50" value="20" step="5"></p>
+      
+  </div>
+ 
+  <div id="app"></div>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "../build/three.module.js",
+        "three/addons/": "./jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="./momentum.js"></script>
+</body>
+
+</html>
